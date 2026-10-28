@@ -12,7 +12,7 @@ from .probe import find_ffmpeg
 from .service import Options, Progress, Result, compose_existing, process_url
 from .util import parse_time
 
-COMMANDS = ("download", "dl", "batch", "compose")
+COMMANDS = ("download", "dl", "batch", "compose", "tui")
 
 
 class TextReporter:
@@ -52,8 +52,13 @@ def main(argv: list[str] | None = None) -> int:
   parser = build_parser()
   args = parser.parse_args(_normalize(argv))
   if getattr(args, "command", None) is None:
+    if _interactive():
+      return _run_tui()
     parser.print_help()
     return 0
+
+  if args.command == "tui":
+    return _run_tui()
 
   try:
     ffmpeg = find_ffmpeg()
@@ -80,6 +85,7 @@ def build_parser() -> argparse.ArgumentParser:
     ),
     epilog=(
       "Examples:\n"
+      "  acdl                                   open the interactive TUI\n"
       "  acdl 'https://host/room1234/?session=abc&proto=true'\n"
       "  acdl batch links.txt\n"
       "  acdl compose recording.zip\n"
@@ -107,6 +113,9 @@ def build_parser() -> argparse.ArgumentParser:
   offline.add_argument("source", metavar="ZIP_OR_DIRECTORY")
   _add_options(offline, network=False)
   offline.set_defaults(handler=_run_compose)
+
+  tui = subparsers.add_parser("tui", help="open the interactive interface")
+  tui.set_defaults(handler=None)
 
   return parser
 
@@ -247,6 +256,28 @@ def _options(args: argparse.Namespace) -> Options:
     name=getattr(args, "name", None),
     insecure=bool(getattr(args, "insecure", False)),
   )
+
+
+def _run_tui() -> int:
+  if not _interactive():
+    print("error: the interactive interface needs a terminal", file=sys.stderr)
+    return 2
+  try:
+    import textual  # noqa: F401
+  except ImportError:
+    print(
+      "error: the interactive interface needs the 'textual' package.\n"
+      "  install it with: pip install 'acdl[tui]'",
+      file=sys.stderr,
+    )
+    return 2
+  from .tui.app import run_tui
+
+  return run_tui()
+
+
+def _interactive() -> bool:
+  return sys.stdin.isatty() and sys.stdout.isatty()
 
 
 def _normalize(argv: list[str] | None) -> list[str]:

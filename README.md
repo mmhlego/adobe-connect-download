@@ -22,14 +22,31 @@ brew install ffmpeg
 ## Install
 
 ```sh
-python3 -m pip install -e .
+python3 -m pip install -e ".[tui]"
 ```
+
+The `tui` extra adds [Textual](https://textual.textualize.io/). The CLI works
+without it (`python3 -m pip install -e .`).
 
 Or run it without installing:
 
 ```sh
 python3 -m acdl --help
 ```
+
+## Interactive TUI
+
+Run `acdl` with no arguments (or `acdl tui`) to open the queue interface:
+
+- paste one or more recording URLs and choose **Add to queue**, or
+- choose **Load links.txt** to read `links.txt` from the current directory,
+- press **Start**; every row shows its current step, a progress bar, elapsed
+  time and ETA,
+- arrow keys move between rows, and column widths stay fixed while text updates,
+- `Ctrl+Q` quits, `Esc` stops after the current recording.
+
+If `ffmpeg` is not installed, the TUI shows install instructions for macOS,
+Windows and Linux instead of the queue and input box.
 
 ## Quick start
 
@@ -154,8 +171,16 @@ address from that tab.
 ## Development
 
 ```sh
-python3 -m pip install -e .
+python3 -m pip install -e ".[tui]"
 python3 -m acdl --help
+```
+
+Formatting uses `ruff` with 2-space indentation (configured in
+`pyproject.toml`):
+
+```sh
+python3 -m pip install ruff
+python3 -m ruff format acdl
 ```
 
 ## License

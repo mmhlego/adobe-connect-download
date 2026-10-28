@@ -32,6 +32,9 @@ Homepage = "https://github.com/mmhlego/adobe-connect-download"
 Repository = "https://github.com/mmhlego/adobe-connect-download"
 Issues = "https://github.com/mmhlego/adobe-connect-download/issues"
 
+[project.optional-dependencies]
+tui = ["textual>=0.80"]
+
 [project.scripts]
 acdl = "acdl.cli:main"
 
