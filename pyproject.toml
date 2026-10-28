@@ -37,3 +37,11 @@ acdl = "acdl.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["acdl*"]
+
+[tool.ruff]
+indent-width = 2
+line-length = 88
+extend-exclude = ["build", "downloads"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
