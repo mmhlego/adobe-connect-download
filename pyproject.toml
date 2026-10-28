@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "acdl"
+version = "0.1.0"
+description = "Download Adobe Connect (classic) recordings as a single playable MP4"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "mmhejazi" }]
+keywords = ["adobe-connect", "recording", "downloader", "ffmpeg", "video"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Multimedia :: Video",
+]
+dependencies = ["requests>=2.28"]
+
+[project.urls]
+Homepage = "https://github.com/mmhlego/adobe-connect-download"
+Repository = "https://github.com/mmhlego/adobe-connect-download"
+Issues = "https://github.com/mmhlego/adobe-connect-download/issues"
+
+[project.scripts]
+acdl = "acdl.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["acdl*"]

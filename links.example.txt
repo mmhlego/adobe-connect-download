@@ -1,0 +1,4 @@
+# One recording URL per line; blank lines and lines starting with # are ignored.
+# Open the recording in your browser and copy the full address (it must contain
+# session=...), then paste it below.
+https://vc.example.ac.ir/room1234/?session=REPLACE_ME&proto=true
